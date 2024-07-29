@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<section id="about" class="container text-center my-5">
+    <h2 class="section-title">About Us</h2>
+    <p>Tech Innovators is a platform dedicated to showcasing the most innovative tech companies and their groundbreaking projects. Our mission is to highlight the leaders in technology and innovation, providing insight into the future of tech.</p>
+    <div class="row">
+        <div class="col-md-4">
+            <i class="fas fa-rocket fa-3x mb-3"></i>
+            <h4>Innovation</h4>
+            <p>We focus on companies that are pushing the boundaries of technology.</p>
+        </div>
+        <div class="col-md-4">
+            <i class="fas fa-globe fa-3x mb-3"></i>
+            <h4>Global Reach</h4>
+            <p>Discover tech leaders from around the world making an impact.</p>
+        </div>
+        <div class="col-md-4">
+            <i class="fas fa-lightbulb fa-3x mb-3"></i>
+            <h4>Future Thinking</h4>
+            <p>Stay ahead with insights into emerging technologies and trends.</p>
+        </div>
+    </div>
+</section>
+
+<section id="companies" class="container text-center my-5">
+    <h2 class="section-title">Innovative Companies</h2>
+    <p class="lead mb-4">Explore the leading tech companies that are driving innovation and shaping the future.</p>
+    <div class="row">
+        {% for company in companies %}
+        <div class="col-md-4 mb-4">
+            <div class="card shadow-sm border-light">
+                <img src="{{ company.logo.url }}" class="card-img-top" alt="{{ company.name }} Logo">
+                <div class="card-body">
+                    <h5 class="card-title">{{ company.name }}</h5>
+                    <p class="card-text">{{ company.description|slice:":100" }}{% if company.description|length > 100 %}...{% endif %}</p>
+                    <a href="{{ company.website_url }}" class="btn btn-primary" target="_blank">Visit Website</a>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <p class="text-muted">No companies listed yet.</p>
+        {% endfor %}
+    </div>
+</section>
+
+<section id="contact" class="container text-center my-5">
+    <h2 class="section-title">Contact Us</h2>
+    <p>For inquiries, please fill out the form below or reach out to us directly at <strong>contact@techinnovators.com</strong>.</p>
+    <form method="post" action="{% url 'contact' %}">
+        {% csrf_token %}
+        <div class="form-group">
+            {{ form.name.label_tag }} <input type="text" name="name" class="form-control" value="{{ form.name.value }}">
+        </div>
+        <div class="form-group">
+            {{ form.email.label_tag }} <input type="email" name="email" class="form-control" value="{{ form.email.value }}">
+        </div>
+        <div class="form-group">
+            {{ form.message.label_tag }} <textarea name="message" class="form-control">{{ form.message.value }}</textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Send</button>
+    </form>
+</section>
+{% endblock %}
