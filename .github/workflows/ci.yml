@@ -43,9 +43,9 @@ jobs:
         run: |
           docker-compose exec -T web python manage.py test
 
-      #- name: Collect static files
-       # run: |
-        #  docker-compose exec -T web python manage.py collectstatic --noinput
+      - name: Collect static files
+        run: |
+          docker-compose exec -T web python manage.py collectstatic --noinput
 
       - name: Shutdown Docker containers
         run: |
