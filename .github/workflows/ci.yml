@@ -12,11 +12,6 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
-    services:
-      docker:
-        image: docker:19.03.12
-        options: --privileged
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -29,7 +24,12 @@ jobs:
       - name: Install Docker CLI
         run: |
           sudo apt-get update
-          sudo apt-get install docker-ce docker-ce-cli containerd.io
+          sudo apt-get install -y docker-ce docker-ce-cli containerd.io
+
+      - name: Install Docker Compose
+        run: |
+          sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+          sudo chmod +x /usr/local/bin/docker-compose
 
       - name: Build Docker image
         run: |
